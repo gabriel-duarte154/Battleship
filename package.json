@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "Project of a battleship game.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
     "server": "webpack server",
-    "test": "jest ./src/game_logic"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./src/game_logic/gameboard"
   },
   "keywords": [],
   "author": "",
