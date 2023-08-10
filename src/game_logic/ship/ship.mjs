@@ -21,11 +21,16 @@ const Ship = (length) => {
     sunk = shipLength - hits === 0 ? true : false;
   };
 
+  const getShipLength = () => {
+    return shipLength;
+  };
+
   return {
     getHits,
+    getShipLength,
     hit,
     isSunk,
   };
 };
 
-module.exports = Ship;
+export default Ship;

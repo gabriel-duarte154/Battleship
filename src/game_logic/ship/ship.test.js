@@ -1,4 +1,4 @@
-const Ship = require('./ship.mjs');
+import Ship from "./ship.mjs";
 
 describe('hit function', () => {
   test('incresse the hit', () => {
