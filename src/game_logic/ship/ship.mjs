@@ -1,5 +1,4 @@
-const Ship = (length) => {
-  let shipLength = length;
+const Ship = (name, length) => {
   let hits = 0;
   let sunk = false;
 
@@ -18,14 +17,15 @@ const Ship = (length) => {
   };
 
   const verifyForSunk = () => {
-    sunk = shipLength - hits === 0 ? true : false;
+    sunk = length - hits === 0 ? true : false;
   };
 
   const getShipLength = () => {
-    return shipLength;
+    return length;
   };
 
   return {
+    name,
     getHits,
     getShipLength,
     hit,

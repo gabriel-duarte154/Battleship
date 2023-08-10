@@ -12,11 +12,11 @@ const Gameboard = () => {
   const missedShoots = [];
   const ships = [];
   const getMissedShots = () => missedShoots;
-  const getCarrier = () => Ship(5);
-  const getBattleship = () => Ship(4);
-  const getDestroyer = () => Ship(3);
-  const getSubmarine = () => Ship(3);
-  const getPatrolBoat = () => Ship(2);
+  const getCarrier = () => Ship('Carrier', 5);
+  const getBattleship = () => Ship('BattleShip', 4);
+  const getDestroyer = () => Ship('Destroyer', 3);
+  const getSubmarine = () => Ship('Submarine', 3);
+  const getPatrolBoat = () => Ship('Patrol Boat', 2);
   const allShipsSunk = () => ships.every((ship) => ship.isSunk() === true);
   const makeGameboard = () => {
     let gameboard = [];
@@ -39,15 +39,20 @@ const Gameboard = () => {
     let length = ship.getShipLength();
     let coords = getShipCoords(coord[0], coord[1], length, isVertical);
 
-    if (hasShip(coords)) return;
-    if (overFlowGameboard(coord, length)) return;
+    if (hasShip(coords) || overFlowGameboard(coord, length, isVertical)) {
+      return false;
+    }
 
     coords.forEach((coord) => (gameboard[coord[0]][coord[1]].ship = ship));
     ships.push(ship);
+
+    return true;
   };
 
-  const overFlowGameboard = (coord, length) => {
-    return coord[0] + length > 9 || coord[1] + length > 9;
+  const overFlowGameboard = (coord, length, isVertical) => {
+    return isVertical === true
+      ? coord[0] + length > 10
+      : coord[1] + length > 10;
   };
 
   const hasShip = (coords) => {
@@ -57,7 +62,7 @@ const Gameboard = () => {
       for (let j in coords) {
         if (
           fillCells[i][0] === coords[j][0] &&
-          fillCells[i][1] === coords[j][i]
+          fillCells[i][1] === coords[j][1]
         ) {
           return true;
         }
@@ -68,7 +73,7 @@ const Gameboard = () => {
   };
 
   const getShipCoords = (x, y, length, isVertical) => {
-    return isVertical
+    return isVertical === true
       ? getVerticalPosition(x, y, length)
       : getHorizontalPosition(x, y, length);
   };
@@ -94,17 +99,11 @@ const Gameboard = () => {
   };
 
   const getFillCells = () => {
-    let fillCells = [];
+    return filter((cell) => cell.ship);
+  };
 
-    for (let i in gameboard) {
-      for (let j in gameboard[i]) {
-        if (gameboard[i][j].ship) {
-          fillCells.push(gameboard[i][j].position);
-        }
-      }
-    }
-
-    return fillCells;
+  const getEmptyCells = () => {
+    return filter((cell) => (cell.ship === false ? true : false));
   };
 
   const receiveAttack = (coord) => {
@@ -122,6 +121,61 @@ const Gameboard = () => {
     cell.ship.hit();
   };
 
+  const filter = (fun) => {
+    let filltred = [];
+    for (let i in gameboard) {
+      for (let j in gameboard[i])
+        if (fun(gameboard[i][j])) filltred.push(gameboard[i][j].position);
+    }
+
+    return filltred;
+  };
+
+  const setRandomShip = (ship) => {
+    const emptyCells = getEmptyCells();
+
+    while (emptyCells.length > 0) {
+      const position = Math.floor(Math.random() * (emptyCells.length - 1));
+      let assis = Math.floor(Math.random() * 2) === 1 ? true : false;
+
+      if (setShip(emptyCells[position], ship, assis) === false) {
+        assis = assis === true ? false : true;
+
+        if (setShip(emptyCells[position], ship, assis) === false) {
+          emptyCells.splice(position, 1);
+          continue;
+        }
+      }
+
+      return;
+    }
+  };
+
+  const log = () => {
+    let string = '';
+
+    for (let i in gameboard) {
+      string += '\n';
+      for (let j in gameboard[i]) {
+        if (gameboard[i][j].isHit && gameboard[i][j].ship) {
+          string += ' x ';
+          continue;
+        }
+        if (gameboard[i][j].isHit) {
+          string += '*';
+        }
+        if (gameboard[i][j].ship) {
+          string += ` ${gameboard[i][j].ship.name[0]} `;
+          continue;
+        }
+
+        string += ' - ';
+      }
+    }
+
+    console.log(string);
+  };
+
   return {
     getGameboard,
     getDestroyer,
@@ -130,11 +184,20 @@ const Gameboard = () => {
     getSubmarine,
     setShip,
     getPatrolBoat,
-    getFillCells,
     receiveAttack,
     getMissedShots,
     allShipsSunk,
+    setRandomShip,
+    getEmptyCells,
+    log,
   };
 };
+
+const game = Gameboard();
+
+game.setRandomShip(game.getCarrier());
+game.setRandomShip(game.getPatrolBoat());
+
+game.log();
 
 export default Gameboard;
