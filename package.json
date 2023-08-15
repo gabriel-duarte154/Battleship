@@ -8,7 +8,7 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "server": "webpack server",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./src/game_logic/player"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js ./src/game_logic/IA"
   },
   "keywords": [],
   "author": "",
