@@ -1,7 +1,7 @@
 import GameBoard from '../gameboard/gameboard.mjs';
 
 function Player() {
-  const attack = (position, gameboard) => {
+  const attack = (position, gameboard ) => {
     gameboard.receiveAttack(position);
   };
 
