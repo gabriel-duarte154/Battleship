@@ -119,3 +119,21 @@ describe('When ot not all ships were sunk', () => {
     expect(game.allShipsSunk()).toBeTruthy();
   });
 });
+
+describe('freeShotCells function', () => {
+  test('get all free shot cells', () => {
+    let game = Gameboard();
+
+    expect(game.freeShotCells().length).toBe(100);
+  });
+
+  test('get free shot cells after some hits', () => {
+    let game = Gameboard();
+
+    game.receiveAttack([0, 0]);
+    game.receiveAttack([9, 9]);
+    game.receiveAttack([5, 5]);
+
+    expect(game.freeShotCells().length).toBe(97);
+  });
+});
