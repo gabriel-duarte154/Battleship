@@ -1,37 +1,70 @@
 import {
   initial_screen,
-  game_screen,
   place_ship_screen,
-} from '../componets/game_screen.mjs';
+  gameOverModal,
+} from '../components/game_screen.mjs';
+import events from '../pubsub/evets.mjs';
 import gameboard_controller from './gameBoard_controller.mjs';
+import audioController from './audioController.mjs';
+import displayController from './displayController.mjs';
+import setShipController from './setShip_controller.mjs';
 
-const Dom = (game) => {
+const Dom = () => {
   const main_screen = document.querySelector('.screen');
-  const gameBoardController = gameboard_controller(game, game_screen);
+  gameboard_controller();
+  audioController();
+  displayController();
+  setShipController();
+
+  const setButtonEvent = () => {
+    const startButton = initial_screen.querySelector('#start_button');
+    startButton.addEventListener('click', () => {
+      events.emit('newGame');
+      events.emit('stopIntro');
+      events.emit('fire_shot');
+    });
+
+    const reset = gameOverModal.querySelector('button');
+    reset.addEventListener('click', () => {
+      setInitialScreen();
+    });
+  };
 
   const setInitialScreen = () => {
     cleanScreen();
     main_screen.appendChild(initial_screen);
-
-    const button = document.querySelector('#start_button');
-    button.addEventListener('click', () => {
-      setGameScreen();
-      gameBoardController.setGameboard();
-    });
+    events.emit('playIntro');
   };
 
-  const setGameScreen = () => {
+  const setScreen = (screen) => {
     cleanScreen();
-    main_screen.appendChild(game_screen);
+    main_screen.appendChild(screen);
   };
 
   const cleanScreen = () => {
     main_screen.innerHTML = '';
   };
 
+  const setGameOverModal = (data) => {
+    const text = gameOverModal.querySelector('.modal_text');
+    text.innerText = `${data.name} Wins!`;
+
+    main_screen.appendChild(gameOverModal);
+  };
+
+  const setShipScreen = () => {
+    setScreen(place_ship_screen);
+  };
+
+  events.on('gameOver', setGameOverModal);
+  events.on('setGameScreen', setScreen);
+  events.on('setShipScreen', setShipScreen);
+  setButtonEvent();
+
   return {
     setInitialScreen,
-    setGameScreen,
+    setGameOverModal,
+    setShipScreen,
   };
 };
 
