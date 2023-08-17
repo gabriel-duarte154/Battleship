@@ -11,6 +11,7 @@
 }
 
 .screen {
+  position: relative;
   min-height: 100vh;
   background-image: linear-gradient(90deg, #010518, #081a2c, #010518);
 }
@@ -18,6 +19,21 @@
 .intro {
   text-align: center;
   margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.title_wrapper {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 150px;
+  width: 100%;
+}
+
+.intro_title--animation {
+  position: absolute;
+  top: -30px;
+  animation: showUp 5s ease-in-out;
 }
 
 .intro_title {
@@ -25,9 +41,8 @@
   text-transform: uppercase;
   font-size: 4rem;
   letter-spacing: 0.1rem;
-  color: #c9c9c7;
-  padding-top: 1rem;
-  text-shadow: 3px 1px 1px #5f5e5e;
+  color: #d3d3cb;
+  text-shadow: 5px 2px 3px #9b95955d;
 }
 
 .display_wrapper {
@@ -70,17 +85,26 @@
   gap: 1rem;
 }
 
+.gameboard_wrapper--center {
+  justify-content: center;
+}
+
 .gameboard {
   flex-shrink: 0;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
+  grid-auto-rows: 1fr;
   width: 500px;
   height: 500px;
 }
 
 .gameboard > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1.5px solid rgb(241, 236, 236);
   margin: 2px;
+  color: white;
 }
 
 #computer_board > div {
@@ -93,18 +117,6 @@
   margin-bottom: 0.5rem;
   font-size: 1.7rem;
   color: white;
-}
-
-.has_ship {
-  background-color: green;
-}
-
-.missed {
-  background-color: grey;
-}
-
-.hit {
-  background-color: red;
 }
 
 .initial_wrapper {
@@ -129,10 +141,86 @@
   border-radius: 0.2rem;
   transition: background-color 0.3s ease;
   cursor: pointer;
+  
+}
+
+.button--animation {
+  animation: buttonAnimation 2s linear 4s;
+}
+
+.button--small {
+  font-size: 1.3rem;
 }
 
 .button:hover {
   background-color: #859fb67a;
+}
+
+.game_over-screen {
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.212);
+  backdrop-filter: blur(5px);
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  background-color: #00000088;
+  min-height: 300px;
+  box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.295);
+}
+
+.modal_text {
+  color: white;
+  font-size: 3.5rem;
+}
+
+.wrapper {
+  flex-direction: column;
+  min-height: 100vh;
+ 
+}
+
+.wrapper_header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+}
+
+.wrapper_text {
+  font-size: 2rem;
+  color: white;
+}
+
+.has_ship {
+  background-color: rgb(35, 177, 35);
+}
+
+.missed {
+  background-color: rgba(145, 145, 145, 0.753);
+}
+
+.hit {
+  background-color: rgb(192, 32, 32);
+}
+
+.invalid {
+  cursor: not-allowed;
+}
+
+.posible_position {
+  background-color: #507c50c0;
 }
 
 @media (max-width: 1100px) {
@@ -158,5 +246,41 @@
   .gameboard {
     width: 310px;
     height: 310px;
+  }
+
+  .modal_text {
+    font-size: 3rem;
+  }
+
+  .title_wrapper {
+    height: 100px;
+  }
+}
+
+@keyframes showUp {
+  to {
+    top: -30px;
+    opacity: 1;
+  }
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+}
+
+@keyframes buttonAnimation {
+  0% {
+    background-color: transparent;
+  }
+  20% {
+    background-color: #859fb67a;
+  }
+
+  30% {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: #859fb67a;
   }
 }
