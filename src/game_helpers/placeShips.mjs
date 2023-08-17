@@ -1,17 +1,11 @@
-import Ship from '../game_logic/ship/ship.mjs';
+import ships from './ships.mjs';
 
 const placeShips = ({ gameboard }) => {
-  const Carrier = Ship('Carrier', 5);
-  const Battleship = Ship('BattleShip', 4);
-  const Destroyer = Ship('Destroyer', 3);
-  const Submarine = Ship('Submarine', 3);
-  const PatrolBoat = Ship('Patrol Boat', 2);
+  let shipsObj = ships();
 
-  gameboard.setRandomShip(Carrier);
-  gameboard.setRandomShip(Battleship);
-  gameboard.setRandomShip(Destroyer);
-  gameboard.setRandomShip(Submarine);
-  gameboard.setRandomShip(PatrolBoat);
+  for (let i in shipsObj) {
+    gameboard.setRandomShip(shipsObj[i]);
+  }
 };
 
 export default placeShips;
