@@ -20,7 +20,7 @@ const displayController = () => {
 
   function init() {
     display = document.querySelector('.display_text');
-    write('Await orders...');
+    write('Awaiting orders...');
   }
 
   events.on('initDisplay', init);

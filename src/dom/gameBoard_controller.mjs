@@ -85,7 +85,7 @@ const gameboard_controller = () => {
       })
       .then(() => {
         upadatePlayerBoard();
-        events.emit('write', 'Await orders...');
+        events.emit('write', 'Awaiting orders...');
         return delayEvent(700);
       })
       .then(() => {
