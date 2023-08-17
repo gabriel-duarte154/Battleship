@@ -56,11 +56,11 @@ const gameboard_controller = () => {
     events.emit('togglePlayer');
     markPosition(position);
 
-    await deleyEvent(1200)
+    await delayEvent(1200)
       .then(() => {
         playerAttck(position);
 
-        return deleyEvent(800);
+        return delayEvent(800);
       })
       .then(() => {
         let data = game.getPlayerShotData();
@@ -68,12 +68,12 @@ const gameboard_controller = () => {
         events.emit(data.sound);
         updateComputerBoard();
 
-        if (game.isGameOver()) return stopDeleyEvent(500);
-        return deleyEvent(800);
+        if (game.isGameOver()) return stopDelayEvent(500);
+        return delayEvent(800);
       })
       .then(() => {
         events.emit('write', 'Enemy Aim on ours waters...');
-        return deleyEvent(1400);
+        return delayEvent(1400);
       })
       .then(() => {
         computerAttck();
@@ -81,12 +81,12 @@ const gameboard_controller = () => {
         events.emit('write', data.text);
         events.emit(data.sound);
 
-        return deleyEvent(900);
+        return delayEvent(900);
       })
       .then(() => {
         upadatePlayerBoard();
         events.emit('write', 'Await orders...');
-        return deleyEvent(700);
+        return delayEvent(700);
       })
       .then(() => {
         events.emit('togglePlayer');
@@ -94,7 +94,7 @@ const gameboard_controller = () => {
       .catch((err) => {});
   }
 
-  function deleyEvent(time) {
+  function delayEvent(time) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
@@ -102,7 +102,7 @@ const gameboard_controller = () => {
     });
   }
 
-  function stopDeleyEvent(time) {
+  function stopDelayEvent(time) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         reject('gameOver');
