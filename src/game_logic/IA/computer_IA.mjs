@@ -1,9 +1,17 @@
 import Player from '../player/player.mjs';
 
 const AttackTrack = (player, gameboard) => {
-  const track = [];
+  let track = [];
 
   const fillAttackTrack = (position) => {
+    let ship = gameboard.getGameboard()[position[0]][position[1]].ship;
+    if (ship) {
+      if (ship.isSunk()) {
+        track = [];
+        return;
+      }
+    }
+
     if (player.getLastShot() !== 'hit') return;
     let x = position[0];
     let y = position[1];
@@ -59,7 +67,7 @@ const Ia = (enemy) => {
 
   const randomAttack = () => {
     const possibleAttckCell =
-    attackTrack.getCell() || hackCells() || getPossibleAttackCell();
+      attackTrack.getCell() || hackCells() || getPossibleAttackCell();
     iaPlayer.attack(possibleAttckCell, enemyGameboard);
     attackTrack.fillAttackTrack(possibleAttckCell);
   };
