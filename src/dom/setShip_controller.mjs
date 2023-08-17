@@ -4,7 +4,7 @@ import ships from '../game_helpers/ships.mjs';
 
 const setShipController = () => {
   const gameboardElement = place_ship_screen.querySelector('.gameboard');
-  const shipsObj = ships();
+  let shipsObj = ships();
   let isVertical = false;
   let shipsNames = [];
   let playerBoard;
@@ -142,6 +142,7 @@ const setShipController = () => {
     addButtonEvent();
     changeShip();
     cells = [...gameboardElement.querySelectorAll('div')];
+    shipsObj = ships();
   };
 
   events.on('setShipScreen', init);

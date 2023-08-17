@@ -56,17 +56,12 @@ const Game = () => {
     }
   }
 
-  function verifyForGameOver(player) {
-    return player.gameboard.allShipsSunk();
+  function verifyForGameOver(enemy) {
+    return enemy.gameboard.allShipsSunk();
   }
 
   function setGameOverData(winner) {
     events.emit('gameOver', gameOverData(winner));
-  }
-
-  function setShips() {
-    placeShips(player);
-    placeShips(computer);
   }
 
   function getComputerBoard() {
