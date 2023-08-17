@@ -13,20 +13,36 @@ const AttackTrack = (player, gameboard) => {
     }
 
     if (player.getLastShot() !== 'hit') return;
+
+    let coords =
+      ship.getAxis() === false
+        ? getHorizontalCoords(position)
+        : getVerticalCoords(position);
+
+    coords = removeOverFlowCoord(coords);
+    coords = removeHitCells(coords);
+
+    coords.forEach((cell) => track.push(cell));
+  };
+
+  const getHorizontalCoords = (position) => {
     let x = position[0];
     let y = position[1];
 
-    let arr = [
+    return [
+      [x, y + 1],
+      [x, y - 1],
+    ];
+  };
+
+  const getVerticalCoords = (position) => {
+    let x = position[0];
+    let y = position[1];
+
+    return [
       [x + 1, y],
       [x - 1, y],
-      [x, y - 1],
-      [x, y + 1],
     ];
-
-    arr = removeOverFlowCoord(arr);
-    arr = removeHitCells(arr);
-
-    arr.forEach((cell) => track.push(cell));
   };
 
   const removeOverFlowCoord = (arr) => {

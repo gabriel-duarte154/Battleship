@@ -1,6 +1,7 @@
 const Ship = (name, length) => {
   let hits = 0;
   let sunk = false;
+  let isVertical;
 
   const getHits = () => {
     return hits;
@@ -24,12 +25,22 @@ const Ship = (name, length) => {
     return length;
   };
 
+  const setAxis = (axis) => {
+    isVertical = axis;
+  };
+
+  const getAxis = () => {
+    return isVertical;
+  };
+
   return {
     name,
     getHits,
     getShipLength,
     hit,
     isSunk,
+    setAxis,
+    getAxis,
   };
 };
 

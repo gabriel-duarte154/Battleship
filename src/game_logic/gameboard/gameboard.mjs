@@ -37,6 +37,7 @@ const Gameboard = () => {
       return false;
     }
 
+    ship.setAxis(isVertical);
     coords.forEach((coord) => (gameboard[coord[0]][coord[1]].ship = ship));
     ships.push(ship);
 
