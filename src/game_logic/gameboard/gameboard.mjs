@@ -97,15 +97,13 @@ const Gameboard = () => {
   };
 
   const getEmptyCells = () => {
-    return filter((cell) => (cell.ship === false ? true : false));
+    return filter((cell) => cell.ship === false);
   };
 
   const receiveAttack = (coord) => {
     const cell = gameboard[coord[0]][coord[1]];
 
     if (cell.isHit) return;
-
-    console.log(coord + ' attacked!');
 
     cell.isHit = true;
 
@@ -115,7 +113,6 @@ const Gameboard = () => {
     }
 
     cell.ship.hit();
-
   };
 
   const filter = (fun) => {
@@ -148,34 +145,12 @@ const Gameboard = () => {
     }
   };
 
-  const log = () => {
-    let string = '';
-
-    for (let i in gameboard) {
-      string += '\n';
-      for (let j in gameboard[i]) {
-        if (gameboard[i][j].isHit && gameboard[i][j].ship) {
-          string += ' x ';
-          continue;
-        }
-        if (gameboard[i][j].isHit) {
-          string += ' * ';
-          continue;
-        }
-        if (gameboard[i][j].ship) {
-          string += ` ${gameboard[i][j].ship.name[0]} `;
-          continue;
-        }
-
-        string += ' - ';
-      }
-    }
-
-    console.log(string);
-  };
-
   const freeShotCells = () => {
     return filter((cell) => cell.isHit === false);
+  };
+
+  const getShipCells = () => {
+    return filter((cell) => cell.ship !== false);
   };
 
   return {
@@ -188,7 +163,10 @@ const Gameboard = () => {
     getEmptyCells,
     freeShotCells,
     getShips,
-    log,
+    getShipCells,
+    getShipCoords,
+    overFlowGameboard,
+    hasShip,
   };
 };
 
